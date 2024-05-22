@@ -13,6 +13,7 @@ const form = useForm({
     phone_number: '',
     password: '',
     password_confirmation: '',
+    role:'',
 });
 
 const submit = () => {
@@ -27,6 +28,8 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
+
+
             <div>
                 <InputLabel for="name" value="First Name" />
 
@@ -112,6 +115,16 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            </div>
+
+            <label for="role">Role</label>
+            <div class="role-select-container">
+                <select id="role" name="role" class="form-control" v-model="form.role">
+                    <option value="guest">non-staff</option>
+                    <option value="admin">staff</option>
+                    <option value="trainer">admin</option>
+
+                </select>
             </div>
 
             <div class="flex items-center justify-end mt-4">

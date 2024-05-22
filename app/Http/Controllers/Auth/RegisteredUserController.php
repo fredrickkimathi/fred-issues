@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -37,7 +38,17 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'phone_number' => ['required', 'string', 'max:15'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|in:non-staff,staff,admin',
         ]);
+
+         // Map role names to role IDs
+         $roleIds = [
+            'non-staff' => Role::where('name', 'non-staff')->first()->id,
+            'staff' => Role::where('name', 'staff')->first()->id,
+            'admin' => Role::where('name', 'admin')->first()->id,
+        ];
+
+        $selectedRoleId = $roleIds[$request->input('role')];
 
         $user = User::create([
             'name' => $request->name,
@@ -45,7 +56,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
+            'role_id' => $selectedRoleId, // Assign the selected role ID
         ]);
+
+        
 
         event(new Registered($user));
 
