@@ -69,6 +69,17 @@ const form = useForm({
                         </select>
                     </div>
 
+                    <div class="mb-6">
+                        <InputLabel for="issue_type" value="Type of Issue" />
+
+                        <select id="issue_type" name="issue_type" class="form-select mt-1 block w-full" v-model="form.issue_type">
+                            <option value="authentication">authentication</option>
+                            <option value="connection">connection</option>
+                            <option value="document_upload">document upload</option>
+                            <option value="other">other</option>
+                        </select>
+                    </div>
+
                     <!-- Issue Screenshot -->
                     <div class="mb-6">
                         <InputLabel for="supporting_doc" value="Issue Screenshot" />
