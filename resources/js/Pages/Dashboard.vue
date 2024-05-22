@@ -16,14 +16,6 @@ import { Head } from '@inertiajs/vue3';
                 <div class="bg-white bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 text-center font-bold">ISSUE TRACKING SYSTEM</div>
                     <div class="p-6 text-gray-400 text-center">Welcome to our Cytonn Issue Tracking Website, your go-to platform for reporting, tracking, and resolving issues across multiple Cytonn websites. Whether you are a developer, a tester, or a user, our comprehensive system is designed to streamline the process of issue management, ensuring efficient communication and timely resolution.</div>
-                    <!-- <div class="flex flex-col pt-10 text-center">
-                        <div>
-                        <p>KEY FEATURES</p>
-                        <li>
-                        Multi-Website Issue Reporting
-                        </li>
-                        </div>
-                    </div> -->
                 </div>
 
                 <div class="flex flex-row space-x-4">
