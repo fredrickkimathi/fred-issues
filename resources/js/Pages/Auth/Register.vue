@@ -120,9 +120,9 @@ const submit = () => {
             <label for="role">Role</label>
             <div class="role-select-container">
                 <select id="role" name="role" class="form-control" v-model="form.role">
-                    <option value="guest">non-staff</option>
-                    <option value="admin">staff</option>
-                    <option value="trainer">admin</option>
+                    <option value="non-staff">non-staff</option>
+                    <option value="staff">staff</option>
+                    <option value="admin">admin</option>
 
                 </select>
             </div>
