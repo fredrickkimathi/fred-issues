@@ -85,7 +85,7 @@ const form = useForm({
 
                     <!-- Submit Button -->
                     <div class="flex items-center justify-end">
-                        <PrimaryButton class="px-4 py-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <PrimaryButton class="px-4 py-2" :class="{ 'opacity-25': form.report-issue }" :disabled="form.report-issue">
                             Report
                         </PrimaryButton>
                     </div>
