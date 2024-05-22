@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\IssueController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,11 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
+    Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 });
 
 Route::get('/dashboard', function () {
