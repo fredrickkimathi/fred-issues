@@ -8,19 +8,19 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
 
-const IssueData = ref( []);
-const SystemData = ref( []);
+
+const UserData = ref( []);
 const form = useForm({
-    issue_name: '',
-    issue_description: '',
-    system: '',
-    issue_type: '',
+    task_name: '',
+    task_description: '',
+    user: '',
+    priority: '',
     supporting_doc: null,
 });
 
 onMounted(()=>{
-   fetchIssue(); 
-   fetchSystem();
+   fetchUser(); 
+   fetchPriority();
 });
 
 const handleFileChange = (event) => {
@@ -29,30 +29,30 @@ const handleFileChange = (event) => {
 
 const submit = () => {
     let formData = new FormData();
-    formData.append('issue_name', form.issue_name);
-    formData.append('issue_description', form.issue_description);
-    formData.append('system', form.system);
-    formData.append('issue_type', form.issue_type);
+    formData.append('task_name', form.task_name);
+    formData.append('task_description', form.task_description);
+    formData.append('user', form.user);
+    formData.append('priority', form.priority);
     if (form.supporting_doc) {
         formData.append('supporting_doc', form.supporting_doc);
     }
 
-    form.post(route('issues.store'), {
+    form.post(route('tasks.store'), {
         data: formData,
         onFinish: () => form.reset()
     });
 };
-// issues fetched
-const fetchIssue = async()=>{
-    const response = await axios.get(' http://fred-issues2.test/api/issues');
-    IssueData.value = response.data;
+// tasks fetched
+const fetchtask = async()=>{
+    const response = await axios.get('#');
+    TaskData.value = response.data;
     console.log(response.data);
 
 
 }
-const fetchSystem = async()=>{
-    const response = await axios.get(' http://fred-issues2.test/api/systems');
-    SystemData.value = response.data;
+const fetchUser = async()=>{
+    const response = await axios.get(' http://fred-issues2.test/api/users');
+    UserData.value = response.data;
     console.log(response.data);
 
 
@@ -65,56 +65,56 @@ const fetchSystem = async()=>{
         <Head title="Report Issue" />
 
         <div class="bg-white m-10 rounded-lg p-10">
-            <p class="text-center pb-5 font-bold underline">Report an Issue experienced</p>
+            <p class="text-center pb-5 font-bold underline">Assign A Task</p>
 
             <form @submit.prevent="submit" class="max-w-md mx-auto">
-                <!-- Name of Issue -->
+                <!-- Name of Task -->
                 <div class="mb-6">
-                    <InputLabel for="issue_name" value="Name of Issue" />
+                    <InputLabel for="task_name" value="Name of Task" />
                     <TextInput
-                        id="issue_name"
+                        id="task_name"
                         type="text"
                         class="mt-1 block w-full"
                         v-model="form.issue_name"
                         required
                         autofocus
-                        autocomplete="issue_name"
+                        autocomplete="task_name"
                     />
-                    <InputError class="mt-2" :message="form.errors.issue_name" />
+                    <InputError class="mt-2" :message="form.errors.task_name" />
                 </div>
 
                 <!-- Description -->
                 <div class="mb-6">
-                    <InputLabel for="issue_description" value="Description" />
+                    <InputLabel for="task_description" value="Description" />
                     <TextInput
-                        id="issue_description"
+                        id="task_description"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="form.issue_description"
+                        v-model="form.task_description"
                         required
-                        autocomplete="issue_description"
+                        autocomplete="task_description"
                     />
-                    <InputError class="mt-2" :message="form.errors.issue_description" />
+                    <InputError class="mt-2" :message="form.errors.task_description" />
                 </div>
 
-                <!-- Select System -->
+                <!-- Select user -->
                 <div class="mb-6">
-                    <InputLabel for="system" value="Select System" />
-                    <select id="system" name="system" class="form-select mt-1 block w-full" v-model="form.system">
-                        <option disabled value="">Select a system</option>
-                        <option v-for="system in SystemData" :value="system.id" :key="system.id">{{ system.name }}</option>
+                    <InputLabel for="user" value="Assign to" />
+                    <select id="user" name="user" class="form-select mt-1 block w-full" v-model="form.user">
+                        <option disabled value="">Assign to</option>
+                        <option v-for="user in UserData" :value="user.id" :key="user.id">{{ user.name }} {{user.last_name}}</option>
                     </select>
-                    <InputError class="mt-2" :message="form.errors.system" />
+                    <InputError class="mt-2" :message="form.errors.user" />
                 </div>
 
                 <!-- Select Issue Type -->
                 <div class="mb-6">
-                    <InputLabel for="issue_type" value="Type of Issue" />
-                    <select id="issue_type" name="issue_type" class="form-select mt-1 block w-full" v-model="form.issue_type">
-                        <option disabled value="">Select an issue type</option>
-                        <option v-for="issueType in IssueData" :value="issueType.id" :key="issueType.id">{{ issueType.name }}</option>
+                    <InputLabel for="priority" value="Priority of Issue" />
+                    <select id="priority" name="priority" class="form-select mt-1 block w-full" v-model="form.priority">
+                        <option disabled value="">Select Priority</option>
+                        <option v-for="priority in PriorityData" :value="priority.id" :key="priority.id">{{ priority.name }}</option>
                     </select>
-                    <InputError class="mt-2" :message="form.errors.issue_type" />
+                    <InputError class="mt-2" :message="form.errors.priority" />
                 </div>
 
                 <!-- Issue Screenshot -->
@@ -133,7 +133,7 @@ const fetchSystem = async()=>{
                 <!-- Submit Button -->
                 <div class="flex items-center justify-end">
                     <PrimaryButton class="px-4 py-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Report
+                        Assign
                     </PrimaryButton>
                 </div>
             </form>
