@@ -1,5 +1,5 @@
 <script setup>
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -8,33 +8,33 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
 
-const IssueData = ref( []);
-const SystemData = ref( []);
+const IssueData = ref([]);
+const SystemData = ref([]);
 const form = useForm({
-    issue_name: '',
-    issue_description: '',
+    name: '',
+    description: '',
     system: '',
     issue_type: '',
-    supporting_doc: null,
+    supporting_documents: null,
 });
 
-onMounted(()=>{
-   fetchIssue(); 
-   fetchSystem();
+onMounted(() => {
+    fetchIssue();
+    fetchSystem();
 });
 
 const handleFileChange = (event) => {
-    form.supporting_doc = event.target.files[0];
+    form.supporting_documents = event.target.files[0];
 };
 
 const submit = () => {
     let formData = new FormData();
-    formData.append('issue_name', form.issue_name);
-    formData.append('issue_description', form.issue_description);
+    formData.append('name', form.name);
+    formData.append('description', form.description);
     formData.append('system', form.system);
     formData.append('issue_type', form.issue_type);
-    if (form.supporting_doc) {
-        formData.append('supporting_doc', form.supporting_doc);
+    if (form.supporting_documents) {
+        formData.append('supporting_documents', form.supporting_documents);
     }
 
     form.post(route('issues.store'), {
@@ -42,22 +42,18 @@ const submit = () => {
         onFinish: () => form.reset()
     });
 };
-// issues fetched
-const fetchIssue = async()=>{
-    const response = await axios.get(' http://fred-issues2.test/api/issues');
+
+const fetchIssue = async () => {
+    const response = await axios.get('/api/issues');
     IssueData.value = response.data;
     console.log(response.data);
+};
 
-
-}
-const fetchSystem = async()=>{
-    const response = await axios.get(' http://fred-issues2.test/api/systems');
+const fetchSystem = async () => {
+    const response = await axios.get('/api/systems');
     SystemData.value = response.data;
     console.log(response.data);
-
-
-}
-
+};
 </script>
 
 <template>
@@ -70,31 +66,31 @@ const fetchSystem = async()=>{
             <form @submit.prevent="submit" class="max-w-md mx-auto">
                 <!-- Name of Issue -->
                 <div class="mb-6">
-                    <InputLabel for="issue_name" value="Name of Issue" />
+                    <InputLabel for="name" value="Name of Issue" />
                     <TextInput
-                        id="issue_name"
+                        id="name"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="form.issue_name"
+                        v-model="form.name"
                         required
                         autofocus
-                        autocomplete="issue_name"
+                        autocomplete="name"
                     />
-                    <InputError class="mt-2" :message="form.errors.issue_name" />
+                    <InputError class="mt-2" :message="form.errors.name" />
                 </div>
 
                 <!-- Description -->
                 <div class="mb-6">
-                    <InputLabel for="issue_description" value="Description" />
+                    <InputLabel for="description" value="Description" />
                     <TextInput
-                        id="issue_description"
+                        id="description"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="form.issue_description"
+                        v-model="form.description"
                         required
-                        autocomplete="issue_description"
+                        autocomplete="description"
                     />
-                    <InputError class="mt-2" :message="form.errors.issue_description" />
+                    <InputError class="mt-2" :message="form.errors.description" />
                 </div>
 
                 <!-- Select System -->
@@ -119,15 +115,15 @@ const fetchSystem = async()=>{
 
                 <!-- Issue Screenshot -->
                 <div class="mb-6">
-                    <InputLabel for="supporting_doc" value="Issue Screenshot" />
+                    <InputLabel for="supporting_documents" value="Issue Screenshot" />
                     <input
-                        id="supporting_doc"
+                        id="supporting_documents"
                         type="file"
                         class="mt-1 block w-full"
                         @change="handleFileChange"
                         required
                     />
-                    <InputError class="mt-2" :message="form.errors.supporting_doc" />
+                    <InputError class="mt-2" :message="form.errors.supporting_documents" />
                 </div>
 
                 <!-- Submit Button -->
