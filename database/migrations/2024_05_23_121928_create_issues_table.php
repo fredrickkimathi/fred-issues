@@ -17,9 +17,9 @@ return new class extends Migration
             $table->text('description');
             $table->foreignId('system_id')->constrained('systems');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('priority_id')->constrained('priorities')->default(1); // Adjust default as needed
+            $table->foreignId('priority_id')->nullable()->constrained('priorities');
             $table->foreignId('issue_type_id')->constrained('issue_types');
-            $table->foreignId('status_id')->constrained('statuses')->default(1); // Adjust default as needed
+            $table->foreignId('status_id')->default(1)->constrained('statuses'); // Set default value
             $table->string('supporting_documents')->nullable();
             $table->timestamps();
         });

@@ -51,7 +51,7 @@ class IssuesController extends Controller
 
         $issue->save();
 
-        return redirect()->route('issues.index')->with('success', 'Issue reported successfully');
+        return redirect()->route('dashboard')->with('success', 'Issue reported successfully');
     }
 
     /**
