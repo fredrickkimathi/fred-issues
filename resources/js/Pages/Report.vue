@@ -1,18 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import axios from 'axios';
 
+const IssueData = ref( []);
 const form = useForm({
     issue_name: '',
     issue_description: '',
     system: '',
     issue_type: '',
     supporting_doc: null,
+});
+
+onMounted(()=>{
+   fetchIssue(); 
 });
 
 const handleFileChange = (event) => {
@@ -34,6 +40,15 @@ const submit = () => {
         onFinish: () => form.reset()
     });
 };
+// issues fetched
+const fetchIssue = async()=>{
+    const response = await axios.get(' http://fred-issues2.test/api/issues');
+    IssueData.value = response.data;
+    console.log(response.data);
+
+
+}
+
 </script>
 
 <template>
@@ -88,7 +103,7 @@ const submit = () => {
                     <InputLabel for="issue_type" value="Type of Issue" />
                     <select id="issue_type" name="issue_type" class="form-select mt-1 block w-full" v-model="form.issue_type">
                         <option disabled value="">Select an issue type</option>
-                        <option v-for="issueType in $page.props.issueTypes" :value="issueType.id" :key="issueType.id">{{ issueType.name }}</option>
+                        <option v-for="issueType in IssueData" :value="issueType.id" :key="issueType.id">{{ issueType.name }}</option>
                     </select>
                     <InputError class="mt-2" :message="form.errors.issue_type" />
                 </div>
