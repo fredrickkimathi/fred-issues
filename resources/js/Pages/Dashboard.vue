@@ -11,9 +11,9 @@ import { Head } from '@inertiajs/vue3';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">ISSUE TRACKER</h2>
         </template>
 
-        <div class="py-12 bg-[url('https://www.sortedai.com/images/search1.jpg')] bg-cover bg-center h-full">
+        <div class="py-12 ">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-green-100 bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 text-center font-bold">ISSUE TRACKING SYSTEM</div>
                     <div class="p-6 text-gray-400 text-center">Welcome to our Cytonn Issue Tracking Website, your go-to platform for reporting, tracking, and resolving issues across multiple Cytonn websites. Whether you are a developer, a tester, or a user, our comprehensive system is designed to streamline the process of issue management, ensuring efficient communication and timely resolution.</div>
                 </div>
