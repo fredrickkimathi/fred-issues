@@ -9,6 +9,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
 
 const IssueData = ref( []);
+const SystemData = ref( []);
 const form = useForm({
     issue_name: '',
     issue_description: '',
@@ -19,6 +20,7 @@ const form = useForm({
 
 onMounted(()=>{
    fetchIssue(); 
+   fetchSystem();
 });
 
 const handleFileChange = (event) => {
@@ -44,6 +46,13 @@ const submit = () => {
 const fetchIssue = async()=>{
     const response = await axios.get(' http://fred-issues2.test/api/issues');
     IssueData.value = response.data;
+    console.log(response.data);
+
+
+}
+const fetchSystem = async()=>{
+    const response = await axios.get(' http://fred-issues2.test/api/systems');
+    SystemData.value = response.data;
     console.log(response.data);
 
 
@@ -93,7 +102,7 @@ const fetchIssue = async()=>{
                     <InputLabel for="system" value="Select System" />
                     <select id="system" name="system" class="form-select mt-1 block w-full" v-model="form.system">
                         <option disabled value="">Select a system</option>
-                        <option v-for="system in $page.props.systems" :value="system.id" :key="system.id">{{ system.name }}</option>
+                        <option v-for="system in SystemData" :value="system.id" :key="system.id">{{ system.name }}</option>
                     </select>
                     <InputError class="mt-2" :message="form.errors.system" />
                 </div>

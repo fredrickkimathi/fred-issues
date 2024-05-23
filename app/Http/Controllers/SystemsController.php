@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Issue;
-use App\Models\System;
-use App\Models\IssueType;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Models\System;
 use Illuminate\Support\Facades\Auth;
 
-class IssueController extends Controller
+class SystemsController extends Controller
 {
     /**
-     * Show the form for creating a new issue.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index()
     {
-        return Inertia::render('Report', [
-            'systems' => System::all(),
-            'issueTypes' => Issue::all()
-        ]);
+        $systems =  System::all();
+       return response()->json($systems);
     }
 
     /**
-     * Store a newly created issue in the database.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
@@ -40,7 +35,7 @@ class IssueController extends Controller
             $filePath = $request->file('supporting_doc')->store('supporting_docs', 'public');
         }
 
-        Issue::create([
+       $systems =  System::create([
             'name' => $request->issue_name,
             'description' => $request->issue_description,
             'system_id' => $request->system,
@@ -50,7 +45,32 @@ class IssueController extends Controller
             'status_id' => 1, // Default status, adjust as needed
             'supporting_documents' => $filePath,
         ]);
+        // return the created data 
+        return response()->json($systems);
 
-        return redirect()->route('issues.create')->with('success', 'Issue reported successfully!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }
