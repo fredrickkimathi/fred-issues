@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\IssueController;
+use App\Http\Controllers\IssuesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,8 +27,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
-    Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
+    Route::get('/issues/create', [IssuesController::class, 'create'])->name('issues.create');
+    Route::post('/issues', [IssuesController::class, 'store'])->name('issues.store');
 });
 
 Route::get('/dashboard', function () {
@@ -39,9 +39,16 @@ Route::get('/Report', function () {
     return Inertia::render('Report');
 })->middleware(['auth', 'verified'])->name('report');
 
+
+Route::get('/Admin/AssignTask', function () {
+    return Inertia::render('Admin/AssignTask');
+})->middleware(['auth', 'verified', 'role:3'])->name('assigntask');
+
 Route::get('/admindashboard', function () {
     return Inertia::render('AdminDashboard');
 })->middleware(['auth', 'verified', 'role:3'])->name('admindashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
