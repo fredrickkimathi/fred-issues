@@ -1,48 +1,107 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+// Placeholder data
+const metrics = {
+  totalIssues: 120,
+  openIssues: 45,
+  closedIssues: 60,
+  inProgressIssues: 15
+};
+
+const recentActivity = [
+  { id: 1, text: 'Issue #101: Updated 10 minutes ago' },
+  { id: 2, text: 'Issue #102: Closed 1 hour ago' },
+  { id: 3, text: 'Issue #103: Commented 3 hours ago' }
+];
+
+const searchQuery = ref('');
+const filters = ref({
+  status: 'All',
+  priority: 'All'
+});
 </script>
 
 <template>
-    <Head title="Dashboard" />
+  <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">ISSUE TRACKER</h2>
-        </template>
+  <AuthenticatedLayout>
+    <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+    </template>
 
-        <div class="py-12 ">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-green-100 bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 text-center font-bold">ISSUE TRACKING SYSTEM</div>
-                    <div class="p-6 text-gray-400 text-center">Welcome to our Cytonn Issue Tracking Website, your go-to platform for reporting, tracking, and resolving issues across multiple Cytonn websites. Whether you are a developer, a tester, or a user, our comprehensive system is designed to streamline the process of issue management, ensuring efficient communication and timely resolution.</div>
-                </div>
+    <div class="py-12">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
 
-                <div class="flex flex-row space-x-4">
-                    <div class="flex-1 bg-pink-200 bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg mt-10">
-                        <div class="p-6 text-gray-900 text-center font-bold">Key Features</div>
-                        <ul class="text-gray-500 mt-4 list-disc list-inside pl-10"> 
-                            <li>Multi-Website Issue Reporting</li>
-                            <li>Real-Time Notifications</li>
-                            <li>Comprehensive Analytics</li>
-                            <li>User-Friendly Interface</li>
-                        </ul>
-                    </div>
-
-                    <div class="flex-1 bg-blue-200 bg-opacity-95 overflow-hidden shadow-sm sm:rounded-lg mt-10">
-                        <div class="p-6 text-gray-900 text-center font-bold">Reporting an Issue</div>
-                        <div class="p-6 text-gray-400 text-center">To report an issue, press on 'REPORT ISSUE' on the navigation bar. You will be redirected to a page where you can report the issue you have experienced from any of our Cytonn websites. Select the system you experienced the issue from and a screenshot of the issue. The Admin will check on it and have it resolved as soon as possible. </div>
-                        <!-- <div class="flex flex-col pt-10 text-center">
-                            <div>
-                            <p>KEY FEATURES</p>
-                            <li>
-                            Multi-Website Issue Reporting
-                            </li>
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
+        <!-- Overview Metrics -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Overview Metrics</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-green-100 p-6 rounded-lg shadow text-center">
+              <div class="text-3xl font-bold">{{ metrics.totalIssues }}</div>
+              <div class="text-gray-600">Total Issues</div>
             </div>
+            <div class="bg-blue-100 p-6 rounded-lg shadow text-center">
+              <div class="text-3xl font-bold">{{ metrics.openIssues }}</div>
+              <div class="text-gray-600">Open Issues</div>
+            </div>
+            <div class="bg-yellow-100 p-6 rounded-lg shadow text-center">
+              <div class="text-3xl font-bold">{{ metrics.closedIssues }}</div>
+              <div class="text-gray-600">Closed Issues</div>
+            </div>
+            <div class="bg-red-100 p-6 rounded-lg shadow text-center">
+              <div class="text-3xl font-bold">{{ metrics.inProgressIssues }}</div>
+              <div class="text-gray-600">In Progress Issues</div>
+            </div>
+          </div>
         </div>
-    </AuthenticatedLayout>
+
+        <!-- Recent Activity -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
+          <ul class="space-y-4">
+            <li v-for="activity in recentActivity" :key="activity.id" class="bg-gray-100 p-4 rounded-lg shadow">
+              {{ activity.text }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Search and Filters</h3>
+          <div class="flex flex-col space-y-4">
+            <input v-model="searchQuery" placeholder="Search issues" class="p-2 border border-gray-300 rounded-lg" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-gray-600 mb-1">Status</label>
+                <select v-model="filters.status" class="p-2 border border-gray-300 rounded-lg w-full">
+                  <option>All</option>
+                  <option>Open</option>
+                  <option>In Progress</option>
+                  <option>Resolved</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-gray-600 mb-1">Priority</label>
+                <select v-model="filters.priority" class="p-2 border border-gray-300 rounded-lg w-full">
+                  <option>All</option>
+                  <option>Critical</option>
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </AuthenticatedLayout>
 </template>
+
+<style>
+/* Custom styles if needed */
+</style>

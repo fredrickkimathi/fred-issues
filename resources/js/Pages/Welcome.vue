@@ -24,7 +24,7 @@ defineProps({
 
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-cover bg-gray-100  dark:bg-gray-800 selection:bg-red-500 selection:text-white"
-                style="background-image: url('https://www.cxtoday.com/wp-content/uploads/2021/05/Issue-Tracker.png');" >
+                style="background-image: url('https://static.vecteezy.com/system/resources/previews/038/261/741/non_2x/ai-generated-a-grunge-pale-sage-green-background-elegantly-distressed-for-a-touch-of-vintage-charm-free-photo.jpg');" >
         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-end">
             <Link
                 v-if="$page.props.auth.user"
@@ -49,12 +49,43 @@ defineProps({
             </template>
         </div>
         <div
-            class=" items-center border-2 border-cyan-500 p-4 rounded justify-center sm:flex-row sm:justify-start sm:items-start sm:space-x-4 sm:space-y-0 space-y-4 text-white"
+            class=" items-center p-4 pt-20 rounded justify-center sm:flex-row sm:justify-start sm:items-start sm:space-x-4 sm:space-y-0 space-y-4 text-emerald-900"
         >
-        <p class="font-bold p-2 underline text-center text-lg">Welcome to our issues tracker website</p>
+        <p class="font-bold p-2 underline text-center text-lg">Welcome to our issues tracking website</p>
 
-        <p class="text-center pt-10 pb-10">Cytonn Technologies has multiple systems for use by internal and external users e.g., CRIMS, CySuites Website, CyTravel e.t.c. This website's function is to enhance operations and customer service by enabling users to report any issues from the Cytonn websites. This tracking system that can be used to streamline the management and resolution of user-reported issues for its various systems. </p>
-        <p class="text-center pt-10">Please LOGIN or REGISTER from the top right section to use this website</p>
+                <div class="py-12 ">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="bg-green-100 bg-opacity-65 overflow-hidden shadow-sm sm:rounded-lg py-10">
+                            <div class="p-6 text-gray-900 text-center font-bold">ISSUE TRACKING SYSTEM</div>
+                            <div class="p-6 text-gray-600 text-center">Welcome to our Cytonn Issue Tracking Website, your go-to platform for reporting, tracking, and resolving issues across multiple Cytonn websites. Whether you are a developer, a tester, or a user, our comprehensive system is designed to streamline the process of issue management, ensuring efficient communication and timely resolution.</div>
+                        </div>
+
+                        <div class="flex flex-row space-x-4">
+                            <div class="flex-1 bg-purple-200 bg-opacity-55 overflow-hidden shadow-sm sm:rounded-lg mt-10">
+                                <div class="p-6 text-gray-900 text-center font-bold">Key Features</div>
+                                <ul class="text-gray-800 mt-4 list-disc list-inside pl-10"> 
+                                    <li>Multi-Website Issue Reporting</li>
+                                    <li>Real-Time Notifications</li>
+                                    <li>Comprehensive Analytics</li>
+                                    <li>User-Friendly Interface</li>
+                                </ul>
+                            </div>
+
+                            <div class="flex-1 bg-blue-200 bg-opacity-55 overflow-hidden shadow-sm sm:rounded-lg mt-10">
+                                <div class="p-6 text-gray-900 text-center font-bold">Reporting an Issue</div>
+                                <div class="p-6 text-gray-600 text-center">To report an issue, Please login or Register if you do not have an account, after login, press on 'REPORT ISSUE' on the navigation bar. You will be redirected to a page where you can report the issue you have experienced from any of our Cytonn websites. Select the system you experienced the issue from and a screenshot of the issue. The Admin will check on it and have it resolved as soon as possible. </div>
+                                <!-- <div class="flex flex-col pt-10 text-center">
+                                    <div>
+                                    <p>KEY FEATURES</p>
+                                    <li>
+                                    Multi-Website Issue Reporting
+                                    </li>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 </template>
