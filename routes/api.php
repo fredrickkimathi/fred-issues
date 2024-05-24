@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\IssuesController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ReportedIssuesController;
 use App\Http\Controllers\SystemsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::get('/systems',[SystemsController::class,'index']);
 
 
 Route::get('/users',[UsersController::class,'index']);
+
+Route::get('/displayissues',[ReportedIssuesController::class,'index']);
 
 
 
