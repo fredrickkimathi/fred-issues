@@ -70,6 +70,7 @@ const issuesPerPage = 5;
 const showAllIssues = ref(false);
 const priorities = ref([]);
 
+// Fetch total issues from the server
 const fetchTotalIssues = async () => {
   try {
     const response = await axios.get('/api/displayissues');
@@ -79,6 +80,7 @@ const fetchTotalIssues = async () => {
   }
 };
 
+// Fetch all issues from the server
 const fetchAllIssues = async () => {
   try {
     const response = await axios.get(`/api/allissues?page=${currentPage.value}&perPage=${issuesPerPage}`);
@@ -92,6 +94,7 @@ const fetchAllIssues = async () => {
   }
 };
 
+// Fetch priorities from the server
 const fetchPriorities = async () => {
   try {
     const response = await axios.get('/api/priorities');
@@ -102,18 +105,21 @@ const fetchPriorities = async () => {
   }
 };
 
-
+// Update the priority of the issue
 const setPriority = async (issueId, priorityId) => {
   try {
     await axios.put(`/api/issues/${issueId}/priority`, { priorityId });
+    // After updating priority, fetch all issues again
     fetchAllIssues();
   } catch (error) {
     console.error('Error setting priority:', error);
   }
 };
 
+// Calculate total pages for pagination
 const totalPages = computed(() => Math.ceil(totalIssues.value / issuesPerPage));
 
+// Go to the next page
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
@@ -121,6 +127,7 @@ const nextPage = () => {
   }
 };
 
+// Go to the previous page
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
@@ -128,10 +135,12 @@ const prevPage = () => {
   }
 };
 
+// Toggle visibility of all issues section
 const toggleAllIssues = () => {
   showAllIssues.value = !showAllIssues.value;
 };
 
+// Fetch data when the component is mounted
 onMounted(() => {
   fetchTotalIssues();
   fetchAllIssues();

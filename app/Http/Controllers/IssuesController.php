@@ -66,6 +66,11 @@ class IssuesController extends Controller
         return response()->json(['message' => 'Issue reported successfully'], 200);
     }
 
+    /**
+     * Get all priorities.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getPriorities()
     {
         $priorities = Priority::all();
@@ -73,13 +78,13 @@ class IssuesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the priority of the specified issue in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Issue  $issue
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Issue $issue)
+    public function setPriority(Request $request, Issue $issue)
     {
         // Validate the request data
         $validator = Validator::make($request->all(), [
@@ -99,4 +104,3 @@ class IssuesController extends Controller
         return response()->json(['message' => 'Priority updated successfully'], 200);
     }
 }
-
