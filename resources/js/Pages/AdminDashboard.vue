@@ -1,128 +1,125 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-</script>
+import { Head, usePage } from '@inertiajs/vue3';
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
 
-<template>
-  <div class="dashboard">
-    <h1>Admin Dashboard</h1>
-    <div class="overview-metrics">
-      <div class="metric">Total Issues: {{ metrics.totalIssues }}</div>
-      <div class="metric">Open Issues: {{ metrics.openIssues }}</div>
-      <div class="metric">Closed Issues: {{ metrics.closedIssues }}</div>
-      <div class="metric">Issues In Progress: {{ metrics.issuesInProgress }}</div>
-    </div>
+// Reactive data
+const totalIssues = ref(0); // Initialize totalIssues as 0
+const allIssues = ref([]); // Initialize allIssues as an empty array
+const currentPage = ref(1); // Current page number
+const issuesPerPage = 5; // Number of issues per page
+const showAllIssues = ref(false); // Boolean flag to track the visibility of the All Issues section
 
-    <div class="system-health">
-      <h2>System Health</h2>
-      <div class="chart">[Issue Creation Rate: Line Chart]</div>
-      <div class="chart">[Issue Resolution Rate: Line Chart]</div>
-      <div class="chart">[Open vs. Closed Issues: Trend Comparison]</div>
-    </div>
+const searchQuery = ref('');
+const filters = ref({
+  status: 'All',
+  priority: 'All'
+});
 
-    <div class="workload-distribution">
-      <h2>Workload Distribution</h2>
-      <div class="chart">[By Assignee: Bar Chart]</div>
-      <div class="chart">[By Team/Department: Pie Chart]</div>
-    </div>
-
-    <div class="kpis">
-      <h2>Key Performance Indicators (KPIs)</h2>
-      <div class="metric">Average Resolution Time: {{ kpis.avgResolutionTime }}</div>
-      <div class="metric">Average Response Time: {{ kpis.avgResponseTime }}</div>
-      <div class="metric">Escalated Issues: {{ kpis.escalatedIssues }}</div>
-    </div>
-
-    <div class="critical-alerts">
-      <h2>Critical Alerts</h2>
-      <ul>
-        <li v-for="alert in criticalAlerts" :key="alert.id">
-          {{ alert.text }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="search-filters">
-      <input v-model="searchQuery" placeholder="Search issues" />
-      <div class="filters">
-        <label>
-          Status:
-          <select v-model="filters.status">
-            <option>All</option>
-            <option>Open</option>
-            <option>In Progress</option>
-            <option>Resolved</option>
-          </select>
-        </label>
-        <label>
-          Priority:
-          <select v-model="filters.priority">
-            <option>All</option>
-            <option>Critical</option>
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
-          </select>
-        </label>
-        <label>
-          Assignee:
-          <select v-model="filters.assignee">
-            <option>All</option>
-            <!-- List of assignees -->
-          </select>
-        </label>
-        <label>
-          Date Range:
-          <input type="date" v-model="filters.startDate" />
-          <input type="date" v-model="filters.endDate" />
-        </label>
-      </div>
-    </div>
-
-    <div class="recent-activity">
-      <h2>Recent Activity</h2>
-      <ul>
-        <li v-for="activity in recentActivity" :key="activity.id">
-          {{ activity.text }}
-        </li>
-      </ul>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      metrics: {
-        totalIssues: 100,
-        openIssues: 40,
-        closedIssues: 50,
-        issuesInProgress: 10
-      },
-      kpis: {
-        avgResolutionTime: '3 days',
-        avgResponseTime: '1 day',
-        escalatedIssues: 5
-      },
-      criticalAlerts: [
-        { id: 1, text: 'High-Priority Issue #789: Requires immediate attention' },
-        { id: 2, text: 'Issue #012: Overdue by 1 day' }
-      ],
-      recentActivity: [
-        { id: 1, text: 'Issue #123: Created 1 hour ago' },
-        { id: 2, text: 'Issue #456: Updated 2 hours ago' }
-      ],
-      searchQuery: '',
-      filters: {
-        status: 'All',
-        priority: 'All',
-        assignee: 'All',
-        startDate: '',
-        endDate: ''
-      }
-    };
+// Fetch total issues from the API
+const fetchTotalIssues = async () => {
+  try {
+    const response = await axios.get('/api/displayissues');
+    totalIssues.value = response.data; // Set the totalIssues value from the API response
+  } catch (error) {
+    console.error('Error fetching total issues:', error);
   }
+};
+
+const fetchAllIssues = async () => {
+  try {
+    const response = await axios.get(`/api/allissues?page=${currentPage.value}&perPage=${issuesPerPage}`);
+    allIssues.value = response.data; // Set allIssues value from the API response
+    console.log(response.data);
+    // Call nextPage function to fetch the next page if on the first page
+    if (currentPage.value === 1) {
+      nextPage();
+    }
+  } catch (error) {
+    console.error('Error fetching all issues:', error);
+  }
+};
+
+onMounted(() => {
+  fetchTotalIssues();
+  fetchAllIssues();
+});
+
+// Computed property to calculate the total number of pages
+const totalPages = computed(() => Math.ceil(totalIssues.value / issuesPerPage));
+
+// Function to navigate to the next page
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    fetchAllIssues();
+  }
+};
+
+// Function to navigate to the previous page
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    fetchAllIssues();
+  }
+};
+
+// Toggle function to show/hide the All Issues section
+const toggleAllIssues = () => {
+  showAllIssues.value = !showAllIssues.value;
 };
 </script>
 
+<template>
+  <Head title="Dashboard" />
+
+  <AuthenticatedLayout>
+    <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+    </template>
+
+    <div class="py-12">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
+
+        <!-- Overview Metrics -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Overview Metrics</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-green-100 p-6 rounded-lg shadow text-center">
+              <div class="text-3xl font-bold" @click="toggleAllIssues" style="cursor: pointer">{{ totalIssues }}</div>
+              <div class="text-gray-600">Total Issues</div>
+            </div>
+            <!-- Add similar blocks for other metrics -->
+          </div>
+        </div>
+
+        <!-- All Issues -->
+        <div v-if="showAllIssues" class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">All Issues</h3>
+          <ul class="space-y-4">
+            <li v-for="issue in allIssues" :key="issue.id" class="bg-gray-100 p-4 rounded-lg shadow">
+              Name: {{ issue.name }} <br> Description: {{ issue.description }} <br> System: {{ issue.system_id }}
+            </li>
+          </ul>
+          <div class="flex justify-between mt-4">
+            <button @click="prevPage" :disabled="currentPage === 1" class="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer">Next</button>
+          </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Search and Filters</h3>
+          <!-- Your search and filter components -->
+        </div>
+
+      </div>
+    </div>
+  </AuthenticatedLayout>
+</template>
+
+<style>
+/* Custom styles if needed */
+</style>
