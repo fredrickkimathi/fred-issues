@@ -29,13 +29,13 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white text-lg font-bold" :class="{ 'text-white': !route().current('dashboard'), 'text-orange-500': route().current('dashboard') }">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('report')" :active="route().current('report')">
+                                <NavLink :href="route('report')" :active="route().current('report')" class="font-bold" :class="{ 'text-white text-lg': !route().current('report'), 'text-orange-500': route().current('report') }">
                                     Report Issue
                                 </NavLink>
-                                <NavLink :href="route('assigntask')" :active="route().current('assigntask')">
+                                <NavLink :href="route('assigntask')" :active="route().current('assigntask')" class="font-bold" :class="{ 'text-white text-lg': !route().current('assigntask'), 'text-orange-500': route().current('assigntask') }">
                                     Assign Task
                                 </NavLink>
                             </div>

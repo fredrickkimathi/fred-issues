@@ -23,6 +23,6 @@ class RoleCheck
         }
 
         // Optionally, you can redirect to a specific page or show an error
-        return redirect('/')->with('error', 'You do not have permission to access this page.');
+        return redirect('/dashboard')->with('error', 'You do not have permission to access this page.');
     }
 }
