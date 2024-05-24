@@ -63,17 +63,17 @@ import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 // Reactive data
-const totalIssues = ref(0); // Initialize totalIssues as 0
-const allIssues = ref([]); // Initialize allIssues as an empty array
-const currentPage = ref(1); // Current page number
-const issuesPerPage = 5; // Number of issues per page
-const showAllIssues = ref(false); // Boolean flag to track the visibility of the All Issues section
-const priorities = ref([]); // Initialize priorities as an empty array
+const totalIssues = ref(0);
+const allIssues = ref([]);
+const currentPage = ref(1);
+const issuesPerPage = 5;
+const showAllIssues = ref(false);
+const priorities = ref([]);
 
 const fetchTotalIssues = async () => {
   try {
     const response = await axios.get('/api/displayissues');
-    totalIssues.value = response.data; // Set the totalIssues value from the API response
+    totalIssues.value = response.data;
   } catch (error) {
     console.error('Error fetching total issues:', error);
   }
@@ -84,7 +84,7 @@ const fetchAllIssues = async () => {
     const response = await axios.get(`/api/allissues?page=${currentPage.value}&perPage=${issuesPerPage}`);
     allIssues.value = response.data.map(issue => ({
       ...issue,
-      selectedPriority: issue.priority_id // Add selectedPriority to each issue
+      selectedPriority: issue.priority_id
     }));
     if (currentPage.value === 1) nextPage();
   } catch (error) {
@@ -96,10 +96,12 @@ const fetchPriorities = async () => {
   try {
     const response = await axios.get('/api/priorities');
     priorities.value = response.data;
+    console.log('Priorities:', priorities.value); // Log the priorities data
   } catch (error) {
     console.error('Error fetching priorities:', error);
   }
 };
+
 
 const setPriority = async (issueId, priorityId) => {
   try {
@@ -140,3 +142,4 @@ onMounted(() => {
 <style>
 /* Custom styles if needed */
 </style>
+
