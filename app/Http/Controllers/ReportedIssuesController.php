@@ -14,6 +14,7 @@ class ReportedIssuesController extends Controller
     public function index()
     {
         $totalIssues = Issue::count();
+        
         return response()->json($totalIssues);
         // Add other data you want to pass to the frontend here
 
