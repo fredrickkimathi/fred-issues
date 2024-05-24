@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Issue_type;
 use App\Models\Issue;
-use Illuminate\Support\Facades\Validator; 
+use App\Models\Priority;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\System;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+
 class IssuesController extends Controller
 {
     /**
@@ -76,5 +79,49 @@ class IssuesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Fetch the total number of issues.
+     */
+    public function displayIssues()
+    {
+        return response()->json(Issue::count());
+    }
+
+    /**
+     * Fetch all issues with pagination.
+     */
+    public function allIssues(Request $request)
+    {
+        $perPage = $request->input('perPage', 5);
+        return Issue::with('priority')->paginate($perPage);
+    }
+
+    /**
+     * Fetch all priorities.
+     */
+    public function getPriorities()
+    {
+        return response()->json(Priority::all());
+    }
+
+    /**
+     * Set the priority for a specific issue.
+     */
+    public function setPriority(Request $request, Issue $issue)
+    {
+        $validator = Validator::make($request->all(), [
+            'priorityId' => 'required|integer|exists:priorities,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $issue->priority_id = $request->input('priorityId');
+        $issue->save();
+
+        return response()->json(['message' => 'Priority updated successfully']);
     }
 }

@@ -30,6 +30,9 @@ Route::get('/displayissues',[ReportedIssuesController::class,'index']);
 
 Route::get('/allissues',[AllIssuesController::class,'index']);
 
+Route::get('/priorities', [IssuesController::class, 'getPriorities']);
+Route::put('/issues/{issue}/priority', [IssuesController::class, 'setPriority']);
+
 
 
 
