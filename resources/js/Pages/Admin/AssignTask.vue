@@ -83,19 +83,7 @@ const fetchUser = async()=>{
                     <InputError class="mt-2" :message="form.errors.task_name" />
                 </div>
 
-                <!-- Description -->
-                <div class="mb-6">
-                    <InputLabel for="task_description" value="Description" />
-                    <TextInput
-                        id="task_description"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.task_description"
-                        required
-                        autocomplete="task_description"
-                    />
-                    <InputError class="mt-2" :message="form.errors.task_description" />
-                </div>
+             
 
                 <!-- Select user -->
                 <div class="mb-6">
@@ -105,29 +93,6 @@ const fetchUser = async()=>{
                         <option v-for="user in UserData" :value="user.id" :key="user.id">{{ user.name }} {{user.last_name}}</option>
                     </select>
                     <InputError class="mt-2" :message="form.errors.user" />
-                </div>
-
-                <!-- Select Issue Type -->
-                <div class="mb-6">
-                    <InputLabel for="priority" value="Priority of Issue" />
-                    <select id="priority" name="priority" class="form-select mt-1 block w-full" v-model="form.priority">
-                        <option disabled value="">Select Priority</option>
-                        <option v-for="priority in PriorityData" :value="priority.id" :key="priority.id">{{ priority.name }}</option>
-                    </select>
-                    <InputError class="mt-2" :message="form.errors.priority" />
-                </div>
-
-                <!-- Issue Screenshot -->
-                <div class="mb-6">
-                    <InputLabel for="supporting_doc" value="Issue Screenshot" />
-                    <input
-                        id="supporting_doc"
-                        type="file"
-                        class="mt-1 block w-full"
-                        @change="handleFileChange"
-                        required
-                    />
-                    <InputError class="mt-2" :message="form.errors.supporting_doc" />
                 </div>
 
                 <!-- Submit Button -->

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IssuesController;
+use App\Http\Controllers\IssueTypeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ReportedIssuesController;
 use App\Http\Controllers\AllIssuesController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/issues',[IssuesController::class,'index']);
 Route::post('/issues',[IssuesController::class,'store']);
+
+Route::get('/issue_types',[IssueTypeController::class,'index']);
 
 Route::get('/systems',[SystemsController::class,'index']);
 

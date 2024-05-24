@@ -44,7 +44,7 @@ const submit = () => {
 };
 
 const fetchIssue = async () => {
-    const response = await axios.get('/api/issues');
+    const response = await axios.get('/api/issue_types');
     IssueData.value = response.data;
     console.log(response.data);
 };

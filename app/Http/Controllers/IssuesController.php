@@ -63,7 +63,7 @@ class IssuesController extends Controller
         $issue->save();
 
         // Return success response
-        return response()->json(['message' => 'Issue reported successfully'], 200);
+        return redirect()->route('dashboard');
     }
 
     /**
