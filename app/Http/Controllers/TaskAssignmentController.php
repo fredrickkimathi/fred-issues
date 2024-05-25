@@ -14,18 +14,19 @@ class TaskAssignmentController extends Controller
      */
     public function index()
     {
-            // Fetch assigned issues with issue name, issue description, and assigned user name
-            $assignedIssues = TaskAssignment::with(['issue', 'user'])
-            ->get()
-            ->map(function ($taskAssignment) {
-                return [
-                    'issue_name' => $taskAssignment->issue->name,
-                    'issue_description' => $taskAssignment->issue->description,
-                    'assigned_user' => $taskAssignment->user->name,
-                ];
-            });
+            // Fetch assigned issues with issue name, issue description, system name, and assigned user name
+        $assignedIssues = TaskAssignment::with(['issue.system', 'user'])
+        ->get()
+        ->map(function ($taskAssignment) {
+            return [
+                'issue_name' => $taskAssignment->issue->name,
+                'issue_description' => $taskAssignment->issue->description,
+                'system_name' => $taskAssignment->issue->system->name,
+                'assigned_user' => $taskAssignment->user->name,
+            ];
+        });
 
-        return response()->json($assignedIssues);
+    return response()->json($assignedIssues);
     }
 
     /**

@@ -155,9 +155,10 @@ onMounted(() => {
           <h3 class="text-lg font-medium text-gray-900 mb-4">Assigned Issues</h3>
           <ul class="space-y-4">
             <li v-for="issue in assignedIssuesData" :key="issue.issue_name" class="bg-gray-100 p-4 rounded-lg shadow">
-              Issue Name: {{ issue.issue_name }} <br> 
-              Issue Description: {{ issue.issue_description }} <br>
-              Assigned To: {{ issue.assigned_user }}
+              <strong>Issue Name:</strong> {{ issue.issue_name }} <br> 
+              <strong>Issue Description:</strong> {{ issue.issue_description }} <br>
+              <strong>System Name: </strong>{{ issue.system_name }} <br>
+              <strong>Assigned To:</strong> {{ issue.assigned_user }}
             </li>
           </ul>
         </div>
