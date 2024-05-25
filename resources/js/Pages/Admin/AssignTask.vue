@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
@@ -12,11 +11,8 @@ const UserData = ref([]);
 const IssuesData = ref([]);
 
 const form = useForm({
-    task_name: '',
-    task_description: '',
-    user: '',
-    priority: '',
-    supporting_doc: null,
+    issue_id: '',
+    user_id: '',
 });
 
 onMounted(() => {
@@ -24,24 +20,16 @@ onMounted(() => {
     fetchIssues();
 });
 
-const handleFileChange = (event) => {
-    form.supporting_doc = event.target.files[0];
-};
-
-const submit = () => {
-    let formData = new FormData();
-    formData.append('task_name', form.task_name);
-    formData.append('task_description', form.task_description);
-    formData.append('user', form.user);
-    formData.append('priority', form.priority);
-    if (form.supporting_doc) {
-        formData.append('supporting_doc', form.supporting_doc);
+const submit = async () => {
+    try {
+        await axios.post('http://fred-issues2.test/api/assignment', {
+            issue_id: form.issue_id,
+            user_id: form.user_id,
+        });
+        form.reset();
+    } catch (error) {
+        console.error('Error assigning task:', error);
     }
-
-    form.post(route('tasks.store'), {
-        data: formData,
-        onFinish: () => form.reset()
-    });
 };
 
 const fetchUser = async () => {
@@ -67,10 +55,9 @@ const fetchIssues = async () => {
 };
 </script>
 
-
 <template>
     <AuthenticatedLayout>
-        <Head title="Report Issue" />
+        <Head title="Assign Task" />
 
         <div class="bg-white m-10 rounded-lg p-10">
             <p class="text-center pb-5 font-bold underline">Assign A Task</p>
@@ -78,22 +65,22 @@ const fetchIssues = async () => {
             <form @submit.prevent="submit" class="max-w-md mx-auto">
                 <!-- Select Task Name -->
                 <div class="mb-6">
-                    <InputLabel for="task_name" value="Name of Task" />
-                    <select id="task_name" name="task_name" class="form-select mt-1 block w-full" v-model="form.task_name">
+                    <InputLabel for="issue_id" value="Name of Task" />
+                    <select id="issue_id" name="issue_id" class="form-select mt-1 block w-full" v-model="form.issue_id">
                         <option disabled value="">Select Task</option>
-                        <option v-for="issue in IssuesData" :value="issue.name" :key="issue.id">{{ issue.name }}</option>
+                        <option v-for="issue in IssuesData" :value="issue.id" :key="issue.id">{{ issue.name }}</option>
                     </select>
-                    <InputError class="mt-2" :message="form.errors.task_name" />
+                    <InputError class="mt-2" :message="form.errors.issue_id" />
                 </div>
 
                 <!-- Select user -->
                 <div class="mb-6">
-                    <InputLabel for="user" value="Assign to" />
-                    <select id="user" name="user" class="form-select mt-1 block w-full" v-model="form.user">
+                    <InputLabel for="user_id" value="Assign to" />
+                    <select id="user_id" name="user_id" class="form-select mt-1 block w-full" v-model="form.user_id">
                         <option disabled value="">Assign to</option>
                         <option v-for="user in UserData" :value="user.id" :key="user.id">{{ user.name }} {{ user.last_name }}</option>
                     </select>
-                    <InputError class="mt-2" :message="form.errors.user" />
+                    <InputError class="mt-2" :message="form.errors.user_id" />
                 </div>
 
                 <!-- Submit Button -->
