@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" style="background-image: url('https://static.vecteezy.com/system/resources/previews/038/261/741/non_2x/ai-generated-a-grunge-pale-sage-green-background-elegantly-distressed-for-a-touch-of-vintage-charm-free-photo.jpg');" >
         <div>
             <Link href="/">
                 <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
