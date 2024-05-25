@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class TaskAssignment extends Model
 {
     use HasFactory;
+
+    public function issue()
+    {
+        return $this->belongsTo(Issue::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

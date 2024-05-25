@@ -14,7 +14,18 @@ class TaskAssignmentController extends Controller
      */
     public function index()
     {
-        //
+            // Fetch assigned issues with issue name, issue description, and assigned user name
+            $assignedIssues = TaskAssignment::with(['issue', 'user'])
+            ->get()
+            ->map(function ($taskAssignment) {
+                return [
+                    'issue_name' => $taskAssignment->issue->name,
+                    'issue_description' => $taskAssignment->issue->description,
+                    'assigned_user' => $taskAssignment->user->name,
+                ];
+            });
+
+        return response()->json($assignedIssues);
     }
 
     /**
@@ -48,9 +59,7 @@ class TaskAssignmentController extends Controller
         return response()->json(['message' => 'Task assigned and issue status updated successfully'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //

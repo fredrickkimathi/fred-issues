@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/issues',[IssuesController::class,'index']);
 Route::post('/issues',[IssuesController::class,'store']);
 
+Route::get('/assignment',[TaskAssignmentController::class,'index']);
 Route::post('/assignment',[TaskAssignmentController::class,'store']);
 
 Route::get('/issue_types',[IssueTypeController::class,'index']);
