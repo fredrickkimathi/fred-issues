@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TaskAssignment;
 use App\Models\Issue;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TaskAssigned; 
 use Illuminate\Support\Facades\Validator;
 
 class TaskAssignmentController extends Controller
@@ -55,6 +58,10 @@ class TaskAssignmentController extends Controller
         $issue = Issue::find($request->issue_id);
         $issue->status_id = 2;
         $issue->save();
+
+        // Send email to the assigned user
+        $assignedUser = User::find($request->user_id);
+        Mail::to($assignedUser->email)->send(new TaskAssigned($taskAssignment)); // Assuming TaskAssigned is your Mailable class
 
         // Return success response
         return response()->json(['message' => 'Task assigned and issue status updated successfully'], 200);
