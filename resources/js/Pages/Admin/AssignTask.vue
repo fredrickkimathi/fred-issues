@@ -9,6 +9,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
 
 const UserData = ref([]);
+const IssuesData = ref([]);
 
 const form = useForm({
     task_name: '',
@@ -20,6 +21,7 @@ const form = useForm({
 
 onMounted(() => {
     fetchUser();
+    fetchIssues();
 });
 
 const handleFileChange = (event) => {
@@ -52,7 +54,19 @@ const fetchUser = async () => {
         console.error('Error fetching users:', error);
     }
 };
+
+const fetchIssues = async () => {
+    try {
+        const response = await axios.get('http://fred-issues2.test/api/issues');
+        // Filter issues with status_id 1
+        IssuesData.value = response.data.filter(issue => issue.status_id === 1);
+        console.log(IssuesData.value);
+    } catch (error) {
+        console.error('Error fetching issues:', error);
+    }
+};
 </script>
+
 
 <template>
     <AuthenticatedLayout>
@@ -62,18 +76,13 @@ const fetchUser = async () => {
             <p class="text-center pb-5 font-bold underline">Assign A Task</p>
 
             <form @submit.prevent="submit" class="max-w-md mx-auto">
-                <!-- Name of Task -->
+                <!-- Select Task Name -->
                 <div class="mb-6">
                     <InputLabel for="task_name" value="Name of Task" />
-                    <TextInput
-                        id="task_name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.task_name"
-                        required
-                        autofocus
-                        autocomplete="task_name"
-                    />
+                    <select id="task_name" name="task_name" class="form-select mt-1 block w-full" v-model="form.task_name">
+                        <option disabled value="">Select Task</option>
+                        <option v-for="issue in IssuesData" :value="issue.name" :key="issue.id">{{ issue.name }}</option>
+                    </select>
                     <InputError class="mt-2" :message="form.errors.task_name" />
                 </div>
 
