@@ -1,5 +1,5 @@
 <script setup>
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -8,8 +8,8 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import axios from 'axios';
 
+const UserData = ref([]);
 
-const UserData = ref( []);
 const form = useForm({
     task_name: '',
     task_description: '',
@@ -18,9 +18,8 @@ const form = useForm({
     supporting_doc: null,
 });
 
-onMounted(()=>{
-   fetchUser(); 
-   fetchPriority();
+onMounted(() => {
+    fetchUser();
 });
 
 const handleFileChange = (event) => {
@@ -42,22 +41,17 @@ const submit = () => {
         onFinish: () => form.reset()
     });
 };
-// tasks fetched
-const fetchtask = async()=>{
-    const response = await axios.get('#');
-    TaskData.value = response.data;
-    console.log(response.data);
 
-
-}
-const fetchUser = async()=>{
-    const response = await axios.get(' http://fred-issues2.test/api/users');
-    UserData.value = response.data;
-    console.log(response.data);
-
-
-}
-
+const fetchUser = async () => {
+    try {
+        const response = await axios.get('http://fred-issues2.test/api/users');
+        // Filter users with role_id 2
+        UserData.value = response.data.filter(user => user.role_id === 2);
+        console.log(UserData.value);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+};
 </script>
 
 <template>
@@ -75,7 +69,7 @@ const fetchUser = async()=>{
                         id="task_name"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="form.issue_name"
+                        v-model="form.task_name"
                         required
                         autofocus
                         autocomplete="task_name"
@@ -83,14 +77,12 @@ const fetchUser = async()=>{
                     <InputError class="mt-2" :message="form.errors.task_name" />
                 </div>
 
-             
-
                 <!-- Select user -->
                 <div class="mb-6">
                     <InputLabel for="user" value="Assign to" />
                     <select id="user" name="user" class="form-select mt-1 block w-full" v-model="form.user">
                         <option disabled value="">Assign to</option>
-                        <option v-for="user in UserData" :value="user.id" :key="user.id">{{ user.name }} {{user.last_name}}</option>
+                        <option v-for="user in UserData" :value="user.id" :key="user.id">{{ user.name }} {{ user.last_name }}</option>
                     </select>
                     <InputError class="mt-2" :message="form.errors.user" />
                 </div>
