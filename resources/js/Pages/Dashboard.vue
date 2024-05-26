@@ -83,44 +83,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Recent Activity -->
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
-          <ul class="space-y-4">
-            <li v-for="activity in recentActivity" :key="activity.id" class="bg-gray-100 p-4 rounded-lg shadow">
-              {{ activity.text }}
-            </li>
-          </ul>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Search and Filters</h3>
-          <div class="flex flex-col space-y-4">
-            <input v-model="searchQuery" placeholder="Search issues" class="p-2 border border-gray-300 rounded-lg" />
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-gray-600 mb-1">Status</label>
-                <select v-model="filters.status" class="p-2 border border-gray-300 rounded-lg w-full">
-                  <option>All</option>
-                  <option>Open</option>
-                  <option>In Progress</option>
-                  <option>Resolved</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-gray-600 mb-1">Priority</label>
-                <select v-model="filters.priority" class="p-2 border border-gray-300 rounded-lg w-full">
-                  <option>All</option>
-                  <option>Critical</option>
-                  <option>High</option>
-                  <option>Medium</option>
-                  <option>Low</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
       </div>
     </div>
