@@ -35,6 +35,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('report')" :active="route().current('report')" class="font-bold" :class="{ 'text-white text-lg': !route().current('report'), 'text-orange-500': route().current('report') }">
                                     Report Issue
                                 </NavLink>
+                                <NavLink :href="route('admindashboard')" :active="route().current('admindashboard')" class="font-bold" :class="{ 'text-white text-lg': !route().current('admindashboard'), 'text-orange-500': route().current('admindashboard') }">
+                                    Admin Dashboard
+                                </NavLink>
                                 <NavLink :href="route('assigntask')" :active="route().current('assigntask')" class="font-bold" :class="{ 'text-white text-lg': !route().current('assigntask'), 'text-orange-500': route().current('assigntask') }">
                                     Assign Task
                                 </NavLink>
