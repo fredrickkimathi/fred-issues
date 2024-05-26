@@ -117,18 +117,18 @@ onMounted(() => {
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div class="bg-green-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold" @click="toggleAllIssues" style="cursor: pointer">{{ totalIssues }}</div>
-              <div class="text-gray-600">Total Issues</div>
+              <div class="text-gray-600">Open Issues</div>
             </div>
             <div class="bg-orange-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold" @click="toggleAssignedIssues" style="cursor: pointer">{{ assignedIssues }}</div>
-              <div class="text-gray-600">Assigned Issues</div>
+              <div class="text-gray-600">Pending Issues</div>
             </div>
           </div>
         </div>
 
         <!-- All Issues -->
         <div v-if="showAllIssues" class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">All Issues</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">All Unassigned Issues</h3>
           <ul class="space-y-4">
             <li v-for="issue in allIssues" :key="issue.id" class="bg-gray-100 p-4 rounded-lg shadow">
               Name: {{ issue.name }} <br> 
