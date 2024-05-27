@@ -6,6 +6,14 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import { usePage } from "@inertiajs/vue3";
+const { props } = usePage();
+
+const userRoleId = ref(props.auth.user.role_id);
+
+const isAdmin = ref(false);
+
+isAdmin.value = [3].includes(userRoleId.value);
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -28,20 +36,27 @@ const showingNavigationDropdown = ref(false);
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                            <div v-if="!isAdmin" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white text-lg font-bold" :class="{ 'text-white': !route().current('dashboard'), 'text-orange-500': route().current('dashboard') }">
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('report')" :active="route().current('report')" class="font-bold" :class="{ 'text-white text-lg': !route().current('report'), 'text-orange-500': route().current('report') }">
                                     Report Issue
                                 </NavLink>
-                                <NavLink :href="route('admindashboard')" :active="route().current('admindashboard')" class="font-bold" :class="{ 'text-white text-lg': !route().current('admindashboard'), 'text-orange-500': route().current('admindashboard') }">
+                               
+                            </div>
+
+                             <div v-else class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                                 <NavLink :href="route('admindashboard')" :active="route().current('admindashboard')" class="font-bold" :class="{ 'text-white text-lg': !route().current('admindashboard'), 'text-orange-500': route().current('admindashboard') }">
                                     Admin Dashboard
+                                </NavLink>
+                                 <NavLink :href="route('report')" :active="route().current('report')" class="font-bold" :class="{ 'text-white text-lg': !route().current('report'), 'text-orange-500': route().current('report') }">
+                                    Report Issue
                                 </NavLink>
                                 <NavLink :href="route('assigntask')" :active="route().current('assigntask')" class="font-bold" :class="{ 'text-white text-lg': !route().current('assigntask'), 'text-orange-500': route().current('assigntask') }">
                                     Assign Task
                                 </NavLink>
-                            </div>
+                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
