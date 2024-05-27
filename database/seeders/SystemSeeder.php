@@ -24,5 +24,6 @@ class SystemSeeder extends Seeder
         DB::table('systems')->insert([
             'name' => 'CyTravel'
         ]);
+        //it'll have the default values
     }
 }
