@@ -22,7 +22,7 @@ onMounted(() => {
 
 const submit = async () => {
     try {
-        await axios.post('http://fred-issues2.test/api/assignment', {
+        await axios.post('/api/assignment', {
             issue_id: form.issue_id,
             user_id: form.user_id,
         });
@@ -34,7 +34,7 @@ const submit = async () => {
 
 const fetchUser = async () => {
     try {
-        const response = await axios.get('http://fred-issues2.test/api/users');
+        const response = await axios.get('/api/users');
         // Filter users with role_id 2
         UserData.value = response.data.filter(user => user.role_id === 2);
         console.log(UserData.value);
@@ -45,7 +45,7 @@ const fetchUser = async () => {
 
 const fetchIssues = async () => {
     try {
-        const response = await axios.get('http://fred-issues2.test/api/issues');
+        const response = await axios.get('/api/issues');
         // Filter issues with status_id 1
         IssuesData.value = response.data.filter(issue => issue.status_id === 1);
         console.log(IssuesData.value);
