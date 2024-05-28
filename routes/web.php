@@ -48,6 +48,10 @@ Route::get('/admindashboard', function () {
     return Inertia::render('AdminDashboard');
 })->middleware(['auth', 'verified', 'role:3'])->name('admindashboard');
 
+Route::get('/staffdashboard', function () {
+    return Inertia::render('StaffDashboard');
+})->middleware(['auth', 'verified', 'role:2'])->name('staffdashboard');
+
 
 
 Route::middleware('auth')->group(function () {

@@ -12,8 +12,10 @@ const { props } = usePage();
 const userRoleId = ref(props.auth.user.role_id);
 
 const isAdmin = ref(false);
+const isStaff = ref(false);
 
 isAdmin.value = [3].includes(userRoleId.value);
+isStaff.value = [2].includes(userRoleId.value);
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -36,7 +38,7 @@ const showingNavigationDropdown = ref(false);
                             </div>
 
                             <!-- Navigation Links -->
-                            <div v-if="!isAdmin" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                            <div v-if="!isAdmin && !isStaff" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white text-lg font-bold" :class="{ 'text-white': !route().current('dashboard'), 'text-orange-500': route().current('dashboard') }">
                                     Dashboard
                                 </NavLink>
@@ -55,6 +57,13 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('assigntask')" :active="route().current('assigntask')" class="font-bold" :class="{ 'text-white text-lg': !route().current('assigntask'), 'text-orange-500': route().current('assigntask') }">
                                     Assign Task
                                 </NavLink>
+                            </div>
+
+                            <div v-if="isStaff" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                                <NavLink :href="route('staffdashboard')" :active="route().current('staffdashboard')" class="font-bold" :class="{ 'text-white text-lg': !route().current('staffdashboard'), 'text-orange-500': route().current('staffdashboard') }">
+                                    Staff Dashboard
+                                </NavLink>
+                                
                             </div>
                         </div>
 

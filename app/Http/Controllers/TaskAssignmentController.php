@@ -61,7 +61,7 @@ class TaskAssignmentController extends Controller
 
         // Send email to the assigned user
         $assignedUser = User::find($request->user_id);
-        Mail::to($assignedUser->email)->send(new TaskAssigned($taskAssignment)); // Assuming TaskAssigned is your Mailable class
+        Mail::to($assignedUser->email)->send(new TaskAssigned($taskAssignment)); 
 
         // Return success response
         return response()->json(['message' => 'Task assigned and issue status updated successfully'], 200);
