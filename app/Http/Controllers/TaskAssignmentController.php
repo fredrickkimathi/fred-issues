@@ -33,15 +33,23 @@ class TaskAssignmentController extends Controller
     return response()->json($assignedIssues);
     }
 
-    public function getMyIssues($id){
-        // Get the currently logged-in user
-        $user = User::find($id);
-        
-        // Get the task assignments that belong to the currently logged-in user
-        $myIssues = TaskAssignment::where('user_id', $user->id)->get();
-        
-        return response()->json($myIssues);
-    }
+    public function getMyIssues($id)
+        {
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            // Join the tables to get the necessary information
+            $myIssues = TaskAssignment::select('issues.id as issue_id', 'issues.name as issue_name', 'issues.description as issue_description', 'systems.name as system_name')
+                ->join('issues', 'task_assignments.issue_id', '=', 'issues.id')
+                ->join('systems', 'issues.system_id', '=', 'systems.id')
+                ->where('task_assignments.user_id', $user->id)
+                ->get();
+
+            return response()->json($myIssues);
+        }
 
     /**
      * Store a newly created resource in storage.
