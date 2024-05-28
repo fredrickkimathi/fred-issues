@@ -21,12 +21,6 @@ const fetchReportedIssue = async () => {
 const totalIssues = ref();
 
 
-const recentActivity = [
-  { id: 1, text: 'Issue #101: Updated 10 minutes ago' },
-  { id: 2, text: 'Issue #102: Closed 1 hour ago' },
-  { id: 3, text: 'Issue #103: Commented 3 hours ago' }
-];
-
 const searchQuery = ref('');
 const filters = ref({
   status: 'All',
@@ -54,7 +48,7 @@ onMounted(() => {
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Staff Dashboard</h2>
     </template>
 
     <div class="py-12">
@@ -66,11 +60,11 @@ onMounted(() => {
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div class="bg-green-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold">{{ totalIssues }}</div>
-              <div class="text-gray-600">Total Issues</div>
+              <div class="text-gray-600">All Issues</div>
             </div>
             <div class="bg-blue-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold"></div>
-              <div class="text-gray-600">Open Issues</div>
+              <div class="text-gray-600">My Assigned Issues</div>
             </div>
             <div class="bg-yellow-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold"></div>
