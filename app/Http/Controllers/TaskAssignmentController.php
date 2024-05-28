@@ -7,6 +7,7 @@ use App\Models\TaskAssignment;
 use App\Models\Issue;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Mail\TaskAssigned; 
 use Illuminate\Support\Facades\Validator;
 
@@ -30,6 +31,16 @@ class TaskAssignmentController extends Controller
         });
 
     return response()->json($assignedIssues);
+    }
+
+    public function getMyIssues($id){
+        // Get the currently logged-in user
+        $user = User::find($id);
+        
+        // Get the task assignments that belong to the currently logged-in user
+        $myIssues = TaskAssignment::where('user_id', $user->id)->get();
+        
+        return response()->json($myIssues);
     }
 
     /**

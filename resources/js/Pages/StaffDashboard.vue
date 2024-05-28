@@ -4,28 +4,11 @@ import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// Reactive data
-const ReportedIssueData = ref([]);
-
-onMounted(async() => {
-     await fetchReportedIssue();
-});
-
-const fetchReportedIssue = async () => {
-    const response = await axios.get('/api/displayissues');
-    ReportedIssueData.value = response.data;
-    console.log(response.data);
-};
-
-
-const totalIssues = ref();
-
-
-const searchQuery = ref('');
-const filters = ref({
-  status: 'All',
-  priority: 'All'
-});
+const totalIssues = ref(0);
+const myIssues = ref(0);
+const {props} = usePage();
+const currentUserID = props.auth.user.id;
+console.log(currentUserID);
 
 // Fetch total issues from the API
 const fetchTotalIssues = async () => {
@@ -38,8 +21,20 @@ const fetchTotalIssues = async () => {
   }
 };
 
+const fetchMyIssues = async () => {
+  try {
+    const response = await axios.get(`/api/displaymyissues/${currentUserID}`);
+    myIssues.value = response.data.length;
+    console.log(myIssues.value);
+    
+  } catch (error) {
+    console.error('Error fetching my issues:', error);
+  }
+};
+
 onMounted(() => {
   fetchTotalIssues();
+  fetchMyIssues();
 });
 </script>
 
@@ -64,6 +59,7 @@ onMounted(() => {
             </div>
             <div class="bg-blue-100 p-6 rounded-lg shadow text-center">
               <div class="text-3xl font-bold"></div>
+              <div class="text-3xl font-bold">{{ myIssues }}</div>
               <div class="text-gray-600">My Assigned Issues</div>
             </div>
             <div class="bg-yellow-100 p-6 rounded-lg shadow text-center">

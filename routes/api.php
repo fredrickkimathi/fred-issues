@@ -35,6 +35,7 @@ Route::get('/systems',[SystemsController::class,'index']);
 Route::get('/users',[UsersController::class,'index']);
 
 Route::get('/displayissues',[ReportedIssuesController::class,'index']);
+Route::get('/displaymyissues/{id}',[TaskAssignmentController::class,'getMyIssues']);
 
 Route::get('/allissues',[AllIssuesController::class,'index']);
 
